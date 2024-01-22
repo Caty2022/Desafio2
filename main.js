@@ -70,12 +70,15 @@ class ProductManager {
 
       if (indice !== -1) {
         // Actualizar las propiedades del producto
-        arrayProductos[indice].title = updatedProduct.title;
-        arrayProductos[indice].description = updatedProduct.description;
-        arrayProductos[indice].price = updatedProduct.price;
-        arrayProductos[indice].image = updatedProduct.image;
-        arrayProductos[indice].code = updatedProduct.code;
-        arrayProductos[indice].stock = updatedProduct.stock;
+        for (const key in updatedProduct) {
+          // Verificar si la propiedad existe tanto en updatedProduct como en el objeto del array
+          if (
+            updatedProduct.hasOwnProperty(key) &&
+            arrayProductos[indice].hasOwnProperty(key)
+          ) {
+            arrayProductos[indice][key] = updatedProduct[key];
+          }
+        }
 
         await this.guardarArchivo(arrayProductos);
         console.log("Producto actualizado correctamente");
